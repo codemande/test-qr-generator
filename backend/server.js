@@ -3,8 +3,18 @@ import cors from "cors";
 import qr from "qr-image";
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:5173",               
+  "https://test-qr-generator.vercel.app/"      
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 // Utility function: check if input is a valid URL
 function isValidUrl(string) {
