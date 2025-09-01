@@ -18,7 +18,7 @@ function App() {
       const response = await axios.post(
         `${API_URL}/generate`,
         { url, size, margin, ec_level: ecLevel },
-        { responseType: "blob" } // tells Axios to expect binary (image)
+        { responseType: "blob" } // tells Axios to expect binary (image)// ensures backend image is treated as a file
       );
 
       const blob = new Blob([response.data], { type: "image/png" });
