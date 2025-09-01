@@ -6,14 +6,20 @@ const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
-  "http://localhost:5173",               
-  "https://test-qr-generator.vercel.app/"      
+  "http://localhost:5173",
+  "https://test-qr-generator-560paan6e-codemandes-projects-9ecb4894.vercel.app"
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"]
+  allowedHeaders: ["Content-Type"],
 }));
 
 // Utility function: check if input is a valid URL
