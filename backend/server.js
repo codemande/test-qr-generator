@@ -5,14 +5,9 @@ import qr from "qr-image";
 const app = express();
 app.use(express.json());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://test-qr-generator-560paan6e-codemandes-projects-9ecb4894.vercel.app"
-];
-
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || origin.includes(".vercel.app") || origin === "http://localhost:5173") {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -21,6 +16,7 @@ app.use(cors({
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"],
 }));
+
 
 // Utility function: check if input is a valid URL
 function isValidUrl(string) {
@@ -32,8 +28,8 @@ function isValidUrl(string) {
   }
 }
 
-app.post("/generate", (req, res) => {
-  console.log("Request body:", req.body); // 👈 Add this line
+app.post("/generate", async(req, res) => {
+  console.log("Request body:", req.body); 
   const { url, size = 5, margin = 4, ec_level = "M" } = req.body;
 
   if (!url) {
