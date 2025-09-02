@@ -7,15 +7,19 @@ app.use(express.json());
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin.includes(".vercel.app") || origin === "http://localhost:5173") {
+    if (!origin) return callback(null, true); // allow non-browser requests 
+    if (origin.includes(".vercel.app") || origin === "http://localhost:5173") {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
+
+// make sure OPTIONS requests are handled
+app.options("*", cors());
 
 
 // Utility function: check if input is a valid URL
