@@ -38,6 +38,8 @@ function App() {
 
   };
 
+  const year = new Date().getFullYear();
+
   return (
     <div className={`app ${darkMode ? "dark" : ""}`}>
       <h1>QR Code Generator</h1>
@@ -87,6 +89,10 @@ function App() {
           <img src={qrSrc} alt="QR Code" />
         </div>
       )}
+
+      <footer>
+        <p>Copyright &copy; {year} Codemande Tech</p>
+      </footer>
     </div>
   );
 }
